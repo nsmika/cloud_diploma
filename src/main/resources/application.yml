@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cloud_storage
+    username: user
+    password: Qwerty123
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+  main:
+    allow-bean-definition-overriding: true
+
+file:
+  storage:
+    location: D:/cloud_diploma/netology-diplom-frontend/storage
+jwt:
+  expiration: 3600000 # 1 hour in milliseconds
