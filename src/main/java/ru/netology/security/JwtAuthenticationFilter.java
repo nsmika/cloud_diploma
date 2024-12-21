@@ -10,8 +10,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -25,9 +23,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         // Логирование всех заголовков
-        log.info("Incoming headers: {}", Collections.list(request.getHeaderNames())
-                .stream()
-                .collect(Collectors.toMap(h -> h, request::getHeader)));
+//        log.info("Incoming headers: {}", Collections.list(request.getHeaderNames())
+//                .stream()
+//                .collect(Collectors.toMap(h -> h, request::getHeader)));
 
         String token = null;
         String authHeader = request.getHeader("Authorization");
@@ -46,17 +44,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (token.startsWith("Bearer")) {
                 token = token.replaceFirst("Bearer", "").trim();
             }
-            log.info("Processed token after cleaning: '{}'", token);
+            //log.info("Processed token after cleaning: '{}'", token);
 
             if (jwtTokenProvider.validateToken(token)) {
-                log.info("Extracted token: '{}'", token);
                 String username = jwtTokenProvider.getUsernameFromToken(token);
                 JwtAuthenticationToken authentication = new JwtAuthenticationToken(username);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
                 log.info("Token is valid. Authenticated username: {}", username);
             } else {
-                log.warn("Token validation failed for token: '{}'", token);
+                log.warn("Token validation failed");
             }
         } else {
             log.warn("Invalid or missing token in the headers. Authorization: '{}', auth-token: '{}'", authHeader, authTokenHeader);

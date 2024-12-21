@@ -1,9 +1,9 @@
 package ru.netology.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.netology.exception.UnauthorizedException;
 import ru.netology.repository.ClientRepository;
 import ru.netology.security.JwtTokenProvider;
 import ru.netology.security.JwtTokenStore;
@@ -29,12 +29,12 @@ public class AuthService {
         var user = clientRepository.findByLogin(username)
                 .orElseThrow(() -> {
                     log.warn("User not found: {}", username);
-                    return new BadCredentialsException("Invalid login or password");
+                    return new UnauthorizedException("Invalid login or password");
                 });
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
             log.warn("Invalid password for user: {}", username);
-            throw new BadCredentialsException("Invalid login or password");
+            throw new UnauthorizedException("Invalid login or password");
         }
 
         String token = jwtTokenProvider.createToken(username);

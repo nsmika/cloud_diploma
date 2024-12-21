@@ -45,7 +45,7 @@ public class JwtTokenProvider {
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(secretKey)
                 .compact();
-        log.info("Generated token: {}", token); // Логируем сгенерированный токен, в продакшене удалить!
+        //log.info("Generated token: {}", token); // Логируем сгенерированный токен, в продакшене удалить!
         return token;
     }
 
@@ -60,7 +60,6 @@ public class JwtTokenProvider {
                     .setSigningKey(secretKey)
                     .build()
                     .parseClaimsJws(token);
-            log.info("Token is valid");
             return true;
         } catch (JwtException | IllegalArgumentException e) {
             log.warn("Token validation failed: {}", e.getMessage());

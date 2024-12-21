@@ -23,17 +23,17 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequest loginRequest) {
         String token = authService.authenticate(loginRequest.getLogin(), loginRequest.getPassword());
         Map<String, String> response = new HashMap<>();
         response.put("auth-token", token);
         response.put("email", loginRequest.getLogin());
+        log.info("Login successful");
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout(@RequestHeader("auth-token") String token) {
-        log.info("Received logout request with token: {}", token);
         authService.logout(token);
         log.info("Logout successful");
         return ResponseEntity.ok("Logged out successfully");
