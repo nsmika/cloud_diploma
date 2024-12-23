@@ -1,0 +1,37 @@
+volumes:
+  db_data:
+  app_storage:
+    driver: local
+
+services:
+  postgres-db:
+    image: postgres:14
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: Qwerty123
+      POSTGRES_DB: cloud_storage
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cloud-storage-app
+    restart: always
+    depends_on:
+      - postgres-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/cloud_storage
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: Qwerty123
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    volumes:
+      - app_storage:/app/storage
+    ports:
+      - "8080:8080"
