@@ -29,15 +29,15 @@ Cloud Storage Application — это проект для управления ф
    cd cloud_diploma
    
 2. **Создайте файл init.sql (если его нет):**
-      CREATE SCHEMA IF NOT EXISTS cloud;
 
-      CREATE TABLE IF NOT EXISTS cloud.clients (
-         login VARCHAR(255) NOT NULL PRIMARY KEY,
-         password VARCHAR(255) NOT NULL
-      );
+       CREATE SCHEMA IF NOT EXISTS cloud;
+            CREATE TABLE IF NOT EXISTS cloud.clients (
+            login VARCHAR(255) NOT NULL PRIMARY KEY,
+            password VARCHAR(255) NOT NULL
+        );
 
-      INSERT INTO cloud.clients (login, password)
-      VALUES
+        INSERT INTO cloud.clients (login, password)
+        VALUES
             ('your_user', 'your_password');
 
 3. **Запустите проект с помощью Docker Compose:**
