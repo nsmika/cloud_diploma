@@ -31,6 +31,12 @@ public class AuthService {
                     log.warn("User not found: {}", username);
                     return new UnauthorizedException("Invalid login or password");
                 });
+// Проверка: если пароль не зашифрован, зашифровать и обновить его
+        if (!user.getPassword().startsWith("$2a$")) {
+            log.warn("Unencrypted password found for user: {}. Encrypting now...", username);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            clientRepository.save(user);
+        }
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
             log.warn("Invalid password for user: {}", username);
