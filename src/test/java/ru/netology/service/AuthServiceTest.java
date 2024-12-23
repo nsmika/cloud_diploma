@@ -44,15 +44,16 @@ class AuthServiceTest {
     @Test
     void authenticate_ShouldReturnToken_WhenCredentialsAreValid() {
         String username = "user@test.org";
-        String password = "password";
+        String rawPassword = "password";
+        String encodedPassword = "$2a$10$hashedPassword";
         String token = "validToken";
 
-        Client client = new Client(username, password);
+        Client client = new Client(username, encodedPassword); // Передаём зашифрованный пароль
         when(clientRepository.findByLogin(username)).thenReturn(Optional.of(client));
-        when(passwordEncoder.matches(password, client.getPassword())).thenReturn(true);
+        when(passwordEncoder.matches(rawPassword, encodedPassword)).thenReturn(true);
         when(jwtTokenProvider.createToken(username)).thenReturn(token);
 
-        String result = authService.authenticate(username, password);
+        String result = authService.authenticate(username, rawPassword);
 
         assertEquals(token, result);
         verify(jwtTokenStore).saveToken(username, token);
