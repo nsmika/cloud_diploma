@@ -3,7 +3,8 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/cloud_storage
+#    url: jdbc:postgresql://localhost:5432/cloud_storage       #cloud_diploma-1.0.1.jar
+    url: jdbc:postgresql://postgres-db:5432/cloud_storage      #cloud_diploma-1.0.0.jar
     username: user
     password: Qwerty123
     driver-class-name: org.postgresql.Driver
@@ -17,6 +18,7 @@ spring:
 
 file:
   storage:
-    location: D:/cloud_diploma/netology-diplom-frontend/storage
+#   location: D:/cloud_diploma/netology-diplom-frontend/storage   #cloud_diploma-1.0.1.jar
+    location: /app/storage                                        #cloud_diploma-1.0.0.jar
 jwt:
   expiration: 3600000 # 1 hour in milliseconds
