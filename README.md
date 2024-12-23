@@ -47,6 +47,6 @@ Cloud Storage Application — это проект для управления ф
    docker-compose up --build
 
 4. **Проверка готовности приложения:**
-   - API: http://localhost:8080
+   - API: http://localhost:8081
    - База данных: localhost:5432, логин и пароль указаны в docker-compose.yml.
 
